@@ -5,6 +5,7 @@ const authRoutes = require("./routes/auth");
 const messageRoutes = require("./routes/messages");
 const app = express();
 const socket = require("socket.io");
+const path = require("path");
 require("dotenv").config();
 
 app.use(cors());
@@ -24,6 +25,13 @@ mongoose
 
 app.get("/ping", (_req, res) => {
   return res.json({ msg: "Ping Successful" });
+});
+// Serve static files from the React app
+app.use(express.static(path.join(__dirname, "../public/build")));
+
+// Catch-all handler to serve React index.html on any other routes
+app.get("*", (req, res) => {
+  res.sendFile(path.join(__dirname, "../public/build/index.html"));
 });
 
 app.use("/api/auth", authRoutes);
