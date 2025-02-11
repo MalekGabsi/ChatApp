@@ -3,13 +3,11 @@ import styled from "styled-components";
 import Robot from "../assets/robot.gif";
 export default function Welcome() {
   const [userName, setUserName] = useState("");
-  localStorage.setItem(process.env.REACT_APP_LOCALHOST_KEY)
-  useEffect(async () => {
-    setUserName(
-      await JSON.parse(
-        localStorage.getItem(process.env.REACT_APP_LOCALHOST_KEY)
-      ).username
-    );
+    useEffect(() => {
+    const storedData = localStorage.getItem(process.env.REACT_APP_LOCALHOST_KEY);
+    if (storedData) {
+      setUserName(JSON.parse(storedData).username);
+    }
   }, []);
   return (
     <Container>
